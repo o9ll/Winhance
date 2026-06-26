@@ -20,7 +20,7 @@ namespace Winhance.UI.Features.Common.Dialogs;
 /// </summary>
 internal class SponsorsDialogBuilder
 {
-    private const string SupportUrl = "https://store.memstechtips.com/winhance/";
+    private const string SupportUrl = "https://github.com/o9ll/Winhance/";
 
     // Sponsor cards layout. The grid is locked to exactly CardColumns columns
     // that fill the usable content width, so cards never leave dead space on the

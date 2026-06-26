@@ -181,7 +181,7 @@ internal class AppRemovalScriptSection
         sb.AppendLine($"{indent}    $WshShell = New-Object -ComObject WScript.Shell");
         sb.AppendLine($"{indent}    $shortcut = $WshShell.CreateShortcut($shortcutPath)");
         sb.AppendLine($"{indent}    $shortcut.TargetPath = \"{ScriptPaths.PowerShellExePath}\"");
-        sb.AppendLine($"{indent}    $shortcut.Arguments = \"-ExecutionPolicy Bypass -NoProfile -Command `\"irm 'https://get.winhance.net' | iex`\"\"");
+        sb.AppendLine($"{indent}    $shortcut.Arguments = \"-ExecutionPolicy Bypass -NoProfile -Command `\"irm 'https://raw.githubusercontent.com/o9ll/Winhance/main/Winhance.ps1' | iex`\"\"");
         sb.AppendLine($"{indent}    $shortcut.IconLocation = \"C:\\Windows\\System32\\appwiz.cpl,0\"");
         sb.AppendLine($"{indent}    $shortcut.WorkingDirectory = \"C:\\Windows\\System32\"");
         sb.AppendLine($"{indent}    $shortcut.Description = \"Download and install Winhance from GitHub\"");

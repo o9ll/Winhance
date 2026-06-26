@@ -517,7 +517,7 @@ public partial class MainWindowViewModel : ObservableObject, IDisposable
         try
         {
             await Windows.System.Launcher.LaunchUriAsync(
-                new Uri("https://github.com/memstechtips/Winhance/issues"));
+                new Uri("https://github.com/o9ll/Winhance/issues"));
         }
         catch (Exception ex)
         {

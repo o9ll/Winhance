@@ -25,8 +25,8 @@ public class VersionService : IVersionService
     private readonly IProcessExecutor _processExecutor;
     private readonly IFileSystemService _fileSystemService;
     private readonly HttpClient _httpClient;
-    private readonly string _latestReleaseApiUrl = "https://api.github.com/repos/memstechtips/Winhance/releases/latest";
-    private readonly string _latestReleaseDownloadUrl = "https://github.com/memstechtips/Winhance/releases/latest/download/Winhance.Installer.exe";
+    private readonly string _latestReleaseApiUrl = "https://api.github.com/repos/o9ll/Winhance/releases/latest";
+    private readonly string _latestReleaseDownloadUrl = "https://github.com/o9ll/Winhance/releases/latest/download/Winhance.Installer.exe";
     private readonly string _userAgent = "Winhance-Update-Checker";
     private string? _downloadedInstallerPath;
 

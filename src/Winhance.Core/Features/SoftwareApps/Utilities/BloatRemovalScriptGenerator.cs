@@ -82,7 +82,7 @@ public static class BloatRemovalScriptGenerator
         sb.AppendLine("      This script is designed to run in any context: user sessions, SYSTEM account, or scheduled tasks.");
         sb.AppendLine();
         sb.AppendLine("  .NOTES");
-        sb.AppendLine("      Source: https://github.com/memstechtips/Winhance");
+        sb.AppendLine("      Source: https://github.com/o9ll/Winhance");
         sb.AppendLine();
         sb.AppendLine("      Requirements:");
         sb.AppendLine("      - Windows 10/11");

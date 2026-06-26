@@ -14,8 +14,8 @@ namespace Winhance.Infrastructure.Features.SoftwareApps.Services;
 
 public class RepoIconSource(HttpClient httpClient, ILogService logService) : IRepoIconSource
 {
-    private const string BaseUrl = "https://cdn.jsdelivr.net/gh/memstechtips/package-icons@main/";
-    private const string UserAgent = "Winhance/1.0 (+https://github.com/memstechtips/Winhance)";
+    private const string BaseUrl = "https://cdn.jsdelivr.net/gh/o9ll/package-icons@main/";
+    private const string UserAgent = "Winhance/1.0 (+https://github.com/o9ll/Winhance)";
     private const long MaxIconBytes = 10L * 1024 * 1024;
     private static readonly TimeSpan FetchTimeout = TimeSpan.FromSeconds(8);
 
