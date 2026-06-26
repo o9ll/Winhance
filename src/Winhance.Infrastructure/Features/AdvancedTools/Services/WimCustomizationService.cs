@@ -17,7 +17,7 @@ public class WimCustomizationService : IWimCustomizationService
     private readonly IDriverCategorizer _driverCategorizer;
     private readonly IDismProcessRunner _dismProcessRunner;
 
-    private const string UnattendedWinstallXmlUrl = "https://raw.githubusercontent.com/memstechtips/UnattendedWinstall/main/autounattend.xml";
+    private const string UnattendedWinstallXmlUrl = "https://raw.githubusercontent.com/o9ll/Winhance/main/autounattend.xml";
 
     public WimCustomizationService(
         IFileSystemService fileSystemService,

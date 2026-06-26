@@ -25,7 +25,7 @@ public static class OneDriveRemovalScript
       This script is designed to run in any context: user sessions, SYSTEM account, or scheduled tasks.
 
   .NOTES
-      Source: https://github.com/memstechtips/Winhance
+      Source: https://github.com/o9ll/Winhance
 
       Requirements:
       - Windows 10/11

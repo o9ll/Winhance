@@ -278,7 +278,7 @@ public class AppRemovalScriptSectionTests
 
         _sut.AppendWinhanceInstallerScriptContent(sb);
 
-        sb.ToString().Should().Contain("get.winhance.net");
+        sb.ToString().Should().Contain("raw.githubusercontent.com/o9ll/Winhance/main/Winhance.ps1");
     }
 
     [Fact]

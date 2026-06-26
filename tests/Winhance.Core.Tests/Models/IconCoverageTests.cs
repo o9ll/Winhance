@@ -11,7 +11,7 @@ namespace Winhance.Core.Tests.Models;
 
 /// <summary>
 /// Invariant: every catalog item that should have a hosted icon in the
-/// memstechtips/package-icons repo actually has one. Guards against adding a new
+/// o9ll/package-icons repo actually has one. Guards against adding a new
 /// app / capability / optional-feature without hosting its icon - the repo is the
 /// only icon source for external apps, and the not-installed fallback for Windows
 /// apps.

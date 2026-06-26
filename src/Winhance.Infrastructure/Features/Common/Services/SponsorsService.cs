@@ -16,7 +16,7 @@ namespace Winhance.Infrastructure.Features.Common.Services;
 /// </summary>
 public class SponsorsService : ISponsorsService
 {
-    private const string LiveUrl = "https://raw.githubusercontent.com/memstechtips/Winhance/sponsors/sponsors/sponsors.json";
+    private const string LiveUrl = "https://raw.githubusercontent.com/o9ll/Winhance/sponsors/sponsors/sponsors.json";
     private const string UserAgent = "Winhance-Sponsors-Loader";
     private const int TimeoutSeconds = 4;
 
@@ -63,7 +63,7 @@ public class SponsorsService : ISponsorsService
     public string GetLogoUri(SponsorEntry sponsor)
     {
         string logo = sponsor.Logo ?? string.Empty;
-        return $"https://raw.githubusercontent.com/memstechtips/Winhance/sponsors/sponsors/{logo}";
+        return $"https://raw.githubusercontent.com/o9ll/Winhance/sponsors/sponsors/{logo}";
     }
 
     /// <inheritdoc/>

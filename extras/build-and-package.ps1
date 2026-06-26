@@ -46,6 +46,7 @@ param (
     [string]$CertificateSubject = "",
     [string]$CertificateThumbprint = "",
     [switch]$SignApplication = $false,
+    [switch]$NoSign = $false,
     [switch]$Beta = $false,
     [switch]$SkipTests = $false
 )
@@ -259,7 +260,7 @@ if (-not (Test-Path $OutputDir)) {
 # before spending several minutes on a build we'd throw away. The cert and
 # shouldSign state are reused by Step 4 (exe signing), Step 5/6 (Inno Setup
 # uninstaller signing), and Step 7 (installer signing) below.
-if ($SignApplication -or (Read-Host "Do you want to sign the application? (y/n)").ToLower() -eq 'y') {
+if (-not $NoSign -and ($SignApplication -or (Read-Host "Do you want to sign the application? (y/n)").ToLower() -eq 'y')) {
     $certificate = Get-SigningCertificate -Subject $CertificateSubject -Thumbprint $CertificateThumbprint
     if ($certificate) {
         Write-Host "Selected certificate: $($certificate.Subject)" -ForegroundColor Green
@@ -550,4 +551,4 @@ if ($shouldSign) {
 }
 else {
     Write-Host "`nSigning Summary: No files were signed" -ForegroundColor Yellow
-}
+}

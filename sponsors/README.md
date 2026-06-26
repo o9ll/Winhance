@@ -1,7 +1,7 @@
 # Winhance Sponsors & Supporters Data
 
 **The live data and the authoritative documentation live on the dedicated
-[`sponsors` branch](https://github.com/memstechtips/Winhance/tree/sponsors/sponsors)**
+[`sponsors` branch](https://github.com/o9ll/Winhance/tree/sponsors/sponsors)**
 — an orphan branch holding only this folder, updated continuously (supporter
 opt-ins automated via the sponsors-sync job; business sponsor cards added after
 Marco's approval).
@@ -9,7 +9,7 @@ Marco's approval).
 Every surface fetches from the branch:
 
 ```
-https://raw.githubusercontent.com/memstechtips/Winhance/sponsors/sponsors/sponsors.json
+https://raw.githubusercontent.com/o9ll/Winhance/sponsors/sponsors/sponsors.json
 ```
 
 Release bundles snapshot the folder **from the `sponsors` branch** as the offline

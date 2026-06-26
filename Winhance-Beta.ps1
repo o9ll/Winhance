@@ -40,7 +40,7 @@ try {
     Write-Host "Checking for latest Winhance beta release..." -ForegroundColor Cyan
 
     # Query GitHub API for the latest pre-release
-    $releases = Invoke-RestMethod -Uri "https://api.github.com/repos/memstechtips/Winhance/releases" -Headers @{ "User-Agent" = "Winhance-Beta-Downloader" }
+    $releases = Invoke-RestMethod -Uri "https://api.github.com/repos/o9ll/Winhance/releases" -Headers @{ "User-Agent" = "Winhance-Beta-Downloader" }
     $betaRelease = $releases | Where-Object { $_.prerelease -eq $true } | Select-Object -First 1
 
     if (-not $betaRelease) {

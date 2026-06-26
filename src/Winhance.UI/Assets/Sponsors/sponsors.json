@@ -44,7 +44,7 @@
       "tier": "gold",
       "city": "WC, ZA",
       "country": "ZA",
-      "contact": "contact@memstechtips.com",
+      "contact": "contact@o9ll.com",
       "url": "https://www.winhance.net",
       "logo": "logos/winhance.png",
       "since": "2026-06",
@@ -56,17 +56,17 @@
       "tier": "silver",
       "city": "WC, ZA",
       "country": "ZA",
-      "contact": "contact@memstechtips.com",
+      "contact": "contact@o9ll.com",
       "logo": "logos/unattendedwinstall.png",
       "since": "2026-06",
       "example": true
     },
     {
-      "id": "memstechtips",
-      "name": "Memstechtips",
+      "id": "o9ll",
+      "name": "o9ll",
       "tier": "bronze",
       "country": "ZA",
-      "logo": "logos/memstechtips.png",
+      "logo": "logos/o9ll.png",
       "since": "2026-06",
       "example": true
     }

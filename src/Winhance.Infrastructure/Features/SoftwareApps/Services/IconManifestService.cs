@@ -12,8 +12,8 @@ namespace Winhance.Infrastructure.Features.SoftwareApps.Services;
 public class IconManifestService(HttpClient httpClient, ILogService logService) : IIconManifestService
 {
     private const string ManifestUrl =
-        "https://cdn.jsdelivr.net/gh/memstechtips/package-icons@main/manifest.json";
-    private const string UserAgent = "Winhance/1.0 (+https://github.com/memstechtips/Winhance)";
+        "https://cdn.jsdelivr.net/gh/o9ll/package-icons@main/manifest.json";
+    private const string UserAgent = "Winhance/1.0 (+https://github.com/o9ll/Winhance)";
 
     private Dictionary<string, string>? _shas; // path-relative-to-icons/ -> sha256
 
