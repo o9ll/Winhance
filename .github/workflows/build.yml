@@ -49,7 +49,8 @@ jobs:
           IS_BETA: ${{ github.event_name == 'workflow_dispatch' && inputs.beta || false }}
         shell: pwsh
         run: |
-          $version = Get-Date -Format 'yy.MM.dd'
+          # Use timestamp to avoid daily collisions
+          $version = Get-Date -Format 'yy.MM.dd-HHmmss'
           $beta = $env:IS_BETA -eq 'true'
           if ($beta) {
             "display=$version-beta" >> $env:GITHUB_OUTPUT
@@ -68,11 +69,25 @@ jobs:
         id: tag_check
         shell: pwsh
         run: |
+          # Avoid terminating the step on non-zero git exit codes and check remote+local for the tag.
+          $ErrorActionPreference = 'SilentlyContinue'
           git fetch --tags --force
+
           $tag = '${{ steps.version.outputs.tag }}'
-          if (git rev-parse "refs/tags/$tag" 2>$null) {
+
+          # Check remote first
+          $remoteCheck = git ls-remote --tags origin $tag 2>$null
+          if ($remoteCheck -and $remoteCheck.ToString().Trim() -ne '') {
             "exists=true" >> $env:GITHUB_OUTPUT
-            Write-Host "Tag $tag already exists."
+            Write-Host "Tag $tag already exists on remote."
+            exit 0
+          }
+
+          # Fallback: check local tags
+          $localCheck = git tag -l $tag 2>$null
+          if ($localCheck -and $localCheck.ToString().Trim() -ne '') {
+            "exists=true" >> $env:GITHUB_OUTPUT
+            Write-Host "Tag $tag already exists locally."
           } else {
             "exists=false" >> $env:GITHUB_OUTPUT
             Write-Host "Tag $tag is available."
@@ -115,4 +130,4 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Release skipped: tag '${{ steps.version.outputs.tag }}' already exists."
-          Write-Host "Build succeeded. Run workflow_dispatch with a new date or delete the existing tag to publish again."
+          Write-Host "Build succeeded. Run workflow_dispatch with a new date/time or delete the existing tag to publish again."
