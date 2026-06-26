@@ -40,7 +40,7 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Install Inno Setup
-        uses: josStorer/setup-inno-setup@v2.2.0
+        uses: jozefchutka/setup-inno-setup@v2.2.0
 
       - name: Resolve version and tag
         id: version
