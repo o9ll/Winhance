@@ -40,7 +40,8 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Install Inno Setup
-        uses: jozefchutka/setup-inno-setup@v2.2.0
+        shell: pwsh
+        run: choco install innosetup -y --no-progress
 
       - name: Resolve version and tag
         id: version
