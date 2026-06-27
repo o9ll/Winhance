@@ -49,21 +49,23 @@ jobs:
           IS_BETA: ${{ github.event_name == 'workflow_dispatch' && inputs.beta || false }}
         shell: pwsh
         run: |
-          # Use timestamp to avoid daily collisions
-          $version = Get-Date -Format 'yy.MM.dd-HHmmss'
+          # Date for assembly/file version; timestamp keeps release tags unique.
+          $date = Get-Date -Format 'yy.MM.dd'
+          $unique = "$date-$(Get-Date -Format 'HHmmss')"
           $beta = $env:IS_BETA -eq 'true'
           if ($beta) {
-            "display=$version-beta" >> $env:GITHUB_OUTPUT
-            "tag=v$version-beta" >> $env:GITHUB_OUTPUT
+            "display=$unique-beta" >> $env:GITHUB_OUTPUT
+            "tag=v$unique-beta" >> $env:GITHUB_OUTPUT
             "installer=Winhance.Installer.Beta.exe" >> $env:GITHUB_OUTPUT
             "prerelease=true" >> $env:GITHUB_OUTPUT
+            "version=$unique" >> $env:GITHUB_OUTPUT
           } else {
-            "display=$version" >> $env:GITHUB_OUTPUT
-            "tag=v$version" >> $env:GITHUB_OUTPUT
+            "display=$unique" >> $env:GITHUB_OUTPUT
+            "tag=v$unique" >> $env:GITHUB_OUTPUT
             "installer=Winhance.Installer.exe" >> $env:GITHUB_OUTPUT
             "prerelease=false" >> $env:GITHUB_OUTPUT
+            "version=$unique" >> $env:GITHUB_OUTPUT
           }
-          "version=$version" >> $env:GITHUB_OUTPUT
 
       - name: Check for existing release tag
         id: tag_check

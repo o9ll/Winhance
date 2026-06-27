@@ -343,10 +343,11 @@ $utf8NoBom = New-Object System.Text.UTF8Encoding $false
 $csprojContent = [System.IO.File]::ReadAllText($csprojPath, [System.Text.Encoding]::UTF8)
 
 # Update version properties in csproj
-# AssemblyVersion and FileVersion must be numeric only (no -beta suffix)
+# AssemblyVersion and FileVersion must be numeric dotted only (no -beta, no timestamps).
+$assemblyVersion = ($Version -split '-')[0]
 $csprojContent = $csprojContent -replace '<Version>.*?</Version>', "<Version>$nugetVersion</Version>"
-$csprojContent = $csprojContent -replace '<FileVersion>.*?</FileVersion>', "<FileVersion>$Version</FileVersion>"
-$csprojContent = $csprojContent -replace '<AssemblyVersion>.*?</AssemblyVersion>', "<AssemblyVersion>$Version</AssemblyVersion>"
+$csprojContent = $csprojContent -replace '<FileVersion>.*?</FileVersion>', "<FileVersion>$assemblyVersion</FileVersion>"
+$csprojContent = $csprojContent -replace '<AssemblyVersion>.*?</AssemblyVersion>', "<AssemblyVersion>$assemblyVersion</AssemblyVersion>"
 $csprojContent = $csprojContent -replace '<InformationalVersion>.*?</InformationalVersion>', "<InformationalVersion>v$displayVersion</InformationalVersion>"
 
 # Write updated csproj content (verbatim — no appended newline, no BOM)
