@@ -15,7 +15,7 @@
   https://github.com/microsoft/CsWinRT/blob/master/nuget/readme.md
   -->
   <PropertyGroup>
-    <CsWinRTWindowsMetadata>10.0.22621.0</CsWinRTWindowsMetadata>
+    <CsWinRTWindowsMetadata>10.0.26100.0</CsWinRTWindowsMetadata>
     <CsWinRTIncludes>Microsoft.Management.Deployment</CsWinRTIncludes>
   </PropertyGroup>
 

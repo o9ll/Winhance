@@ -1,135 +1,37 @@
 name: Build and Release
 
 on:
-  workflow_dispatch:
-    inputs:
-      beta:
-        description: Create a beta prerelease
-        type: boolean
-        default: false
-      skip_tests:
-        description: Skip test suite
-        type: boolean
-        default: false
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: write
-
-concurrency:
-  group: release-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   build-and-release:
     runs-on: windows-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+      - uses: microsoft/setup-msbuild@v2
 
-      - name: Install Inno Setup
+      - name: Build and release
         shell: pwsh
-        run: choco install innosetup -y --no-progress
-
-      - name: Resolve version and tag
-        id: version
         env:
-          IS_BETA: ${{ github.event_name == 'workflow_dispatch' && inputs.beta || false }}
-        shell: pwsh
+          GH_TOKEN: ${{ github.token }}
         run: |
-          # Date for assembly/file version; timestamp keeps release tags unique.
           $date = Get-Date -Format 'yy.MM.dd'
           $unique = "$date-$(Get-Date -Format 'HHmmss')"
-          $beta = $env:IS_BETA -eq 'true'
-          if ($beta) {
-            "display=$unique-beta" >> $env:GITHUB_OUTPUT
-            "tag=v$unique-beta" >> $env:GITHUB_OUTPUT
-            "installer=Winhance.Installer.Beta.exe" >> $env:GITHUB_OUTPUT
-            "prerelease=true" >> $env:GITHUB_OUTPUT
-            "version=$date" >> $env:GITHUB_OUTPUT
-          } else {
-            "display=$unique" >> $env:GITHUB_OUTPUT
-            "tag=v$unique" >> $env:GITHUB_OUTPUT
-            "installer=Winhance.Installer.exe" >> $env:GITHUB_OUTPUT
-            "prerelease=false" >> $env:GITHUB_OUTPUT
-            "version=$date" >> $env:GITHUB_OUTPUT
-          }
+          $tag = "v$unique"
 
-      - name: Check for existing release tag
-        id: tag_check
-        shell: pwsh
-        run: |
-          # Avoid terminating the step on non-zero git exit codes and check remote+local for the tag.
-          $ErrorActionPreference = 'SilentlyContinue'
-          git fetch --tags --force
+          & "$env:GITHUB_WORKSPACE/extras/build-and-package.ps1" -Version $date -NoSign -SkipTests
 
-          $tag = '${{ steps.version.outputs.tag }}'
-
-          # Check remote first
-          $remoteCheck = git ls-remote --tags origin $tag 2>$null
-          if ($remoteCheck -and $remoteCheck.ToString().Trim() -ne '') {
-            "exists=true" >> $env:GITHUB_OUTPUT
-            Write-Host "Tag $tag already exists on remote."
-            exit 0
-          }
-
-          # Fallback: check local tags
-          $localCheck = git tag -l $tag 2>$null
-          if ($localCheck -and $localCheck.ToString().Trim() -ne '') {
-            "exists=true" >> $env:GITHUB_OUTPUT
-            Write-Host "Tag $tag already exists locally."
-          } else {
-            "exists=false" >> $env:GITHUB_OUTPUT
-            Write-Host "Tag $tag is available."
-          }
-
-      - name: Build and package
-        env:
-          SKIP_TESTS: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_tests || false }}
-        shell: pwsh
-        run: |
-          $params = @{
-            Version = '${{ steps.version.outputs.version }}'
-            NoSign  = $true
-          }
-          if ('${{ steps.version.outputs.prerelease }}' -eq 'true') { $params.Beta = $true }
-          if ($env:SKIP_TESTS -eq 'true') { $params.SkipTests = $true }
-          & "$env:GITHUB_WORKSPACE/extras/build-and-package.ps1" @params
-
-      - name: Create Git tag
-        if: steps.tag_check.outputs.exists != 'true'
-        shell: pwsh
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag -a "${{ steps.version.outputs.tag }}" -m "Winhance v${{ steps.version.outputs.display }}"
-          git push origin "${{ steps.version.outputs.tag }}"
-
-      - name: Publish GitHub release
-        if: steps.tag_check.outputs.exists != 'true'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.version.outputs.tag }}
-          name: Winhance v${{ steps.version.outputs.display }}
-          prerelease: ${{ steps.version.outputs.prerelease == 'true' }}
-          generate_release_notes: true
-          files: installer-output/${{ steps.version.outputs.installer }}
-
-      - name: Skip release (tag already exists)
-        if: steps.tag_check.outputs.exists == 'true'
-        shell: pwsh
-        run: |
-          Write-Host "Release skipped: tag '${{ steps.version.outputs.tag }}' already exists."
-          Write-Host "Build succeeded. Run workflow_dispatch with a new date/time or delete the existing tag to publish again."
+          gh release create $tag `
+            --title "Winhance v$unique" `
+            "installer-output/Winhance.Installer.exe"
