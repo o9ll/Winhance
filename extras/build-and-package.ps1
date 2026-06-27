@@ -369,7 +369,8 @@ if (-not $msbuildPath -or -not (Test-Path $msbuildPath)) {
     $fallbackPaths = @(
         "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe",
         "C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe",
-        "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
+        "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe",
+        "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\\MSBuild\Current\Bin\amd64\MSBuild.exe"
     )
     foreach ($path in $fallbackPaths) {
         if (Test-Path $path) {

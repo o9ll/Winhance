@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build-and-release:
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
 
@@ -21,17 +21,22 @@ jobs:
 
       - uses: microsoft/setup-msbuild@v2
 
-      - name: Build and release
+      - name: Build
+        id: build
+        shell: pwsh
+        run: |
+          $date = Get-Date -Format 'yy.MM.dd'
+          $unique = "$date-$(Get-Date -Format 'HHmmss')"
+          "tag=v$unique" >> $env:GITHUB_OUTPUT
+          "title=Winhance v$unique" >> $env:GITHUB_OUTPUT
+          & "$env:GITHUB_WORKSPACE/extras/build-and-package.ps1" -Version $date -NoSign -SkipTests
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Release
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $date = Get-Date -Format 'yy.MM.dd'
-          $unique = "$date-$(Get-Date -Format 'HHmmss')"
-          $tag = "v$unique"
-
-          & "$env:GITHUB_WORKSPACE/extras/build-and-package.ps1" -Version $date -NoSign -SkipTests
-
-          gh release create $tag `
-            --title "Winhance v$unique" `
+          gh release create "${{ steps.build.outputs.tag }}" `
+            --title "${{ steps.build.outputs.title }}" `
             "installer-output/Winhance.Installer.exe"
