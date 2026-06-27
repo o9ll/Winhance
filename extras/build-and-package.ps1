@@ -319,16 +319,17 @@ try {
 
 Write-Host "Building Winhance v$Version..." -ForegroundColor Cyan
 
-# Modify version if Beta flag is set
+# Modify version if Beta flag is set.
+# NuGet/assembly use yy.MM.dd only; timestamps or labels after '-' go to InformationalVersion only.
+$assemblyVersion = ($Version -split '-')[0]
 if ($Beta) {
-    # For NuGet compatibility, use proper SemVer format with prerelease tag
     $displayVersion = "$Version-beta"
-    $nugetVersion = "$Version-beta"
+    $nugetVersion = "$assemblyVersion-beta"
     Write-Host "Building beta version: v$displayVersion" -ForegroundColor Cyan
 }
 else {
     $displayVersion = $Version
-    $nugetVersion = $Version
+    $nugetVersion = $assemblyVersion
 }
 
 # Update version in csproj file.
@@ -343,10 +344,10 @@ $utf8NoBom = New-Object System.Text.UTF8Encoding $false
 $csprojContent = [System.IO.File]::ReadAllText($csprojPath, [System.Text.Encoding]::UTF8)
 
 # Update version properties in csproj
-# AssemblyVersion and FileVersion must be numeric only (no -beta suffix)
+# AssemblyVersion and FileVersion must be numeric dotted only (no -beta, no timestamps).
 $csprojContent = $csprojContent -replace '<Version>.*?</Version>', "<Version>$nugetVersion</Version>"
-$csprojContent = $csprojContent -replace '<FileVersion>.*?</FileVersion>', "<FileVersion>$Version</FileVersion>"
-$csprojContent = $csprojContent -replace '<AssemblyVersion>.*?</AssemblyVersion>', "<AssemblyVersion>$Version</AssemblyVersion>"
+$csprojContent = $csprojContent -replace '<FileVersion>.*?</FileVersion>', "<FileVersion>$assemblyVersion</FileVersion>"
+$csprojContent = $csprojContent -replace '<AssemblyVersion>.*?</AssemblyVersion>', "<AssemblyVersion>$assemblyVersion</AssemblyVersion>"
 $csprojContent = $csprojContent -replace '<InformationalVersion>.*?</InformationalVersion>', "<InformationalVersion>v$displayVersion</InformationalVersion>"
 
 # Write updated csproj content (verbatim — no appended newline, no BOM)
@@ -368,7 +369,8 @@ if (-not $msbuildPath -or -not (Test-Path $msbuildPath)) {
     $fallbackPaths = @(
         "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe",
         "C:\Program Files\Microsoft Visual Studio\2022\Professional\MSBuild\Current\Bin\MSBuild.exe",
-        "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe"
+        "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe",
+        "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\\MSBuild\Current\Bin\amd64\MSBuild.exe"
     )
     foreach ($path in $fallbackPaths) {
         if (Test-Path $path) {

@@ -253,3 +253,4 @@ $RECYCLE.BIN/
 
 # Agent investigation working notes (regenerated; not source-of-truth)
 .agent-plans/
+log
