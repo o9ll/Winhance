@@ -58,13 +58,13 @@ jobs:
             "tag=v$unique-beta" >> $env:GITHUB_OUTPUT
             "installer=Winhance.Installer.Beta.exe" >> $env:GITHUB_OUTPUT
             "prerelease=true" >> $env:GITHUB_OUTPUT
-            "version=$unique" >> $env:GITHUB_OUTPUT
+            "version=$date" >> $env:GITHUB_OUTPUT
           } else {
             "display=$unique" >> $env:GITHUB_OUTPUT
             "tag=v$unique" >> $env:GITHUB_OUTPUT
             "installer=Winhance.Installer.exe" >> $env:GITHUB_OUTPUT
             "prerelease=false" >> $env:GITHUB_OUTPUT
-            "version=$unique" >> $env:GITHUB_OUTPUT
+            "version=$date" >> $env:GITHUB_OUTPUT
           }
 
       - name: Check for existing release tag

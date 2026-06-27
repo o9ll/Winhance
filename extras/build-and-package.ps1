@@ -319,16 +319,17 @@ try {
 
 Write-Host "Building Winhance v$Version..." -ForegroundColor Cyan
 
-# Modify version if Beta flag is set
+# Modify version if Beta flag is set.
+# NuGet/assembly use yy.MM.dd only; timestamps or labels after '-' go to InformationalVersion only.
+$assemblyVersion = ($Version -split '-')[0]
 if ($Beta) {
-    # For NuGet compatibility, use proper SemVer format with prerelease tag
     $displayVersion = "$Version-beta"
-    $nugetVersion = "$Version-beta"
+    $nugetVersion = "$assemblyVersion-beta"
     Write-Host "Building beta version: v$displayVersion" -ForegroundColor Cyan
 }
 else {
     $displayVersion = $Version
-    $nugetVersion = $Version
+    $nugetVersion = $assemblyVersion
 }
 
 # Update version in csproj file.
@@ -344,7 +345,6 @@ $csprojContent = [System.IO.File]::ReadAllText($csprojPath, [System.Text.Encodin
 
 # Update version properties in csproj
 # AssemblyVersion and FileVersion must be numeric dotted only (no -beta, no timestamps).
-$assemblyVersion = ($Version -split '-')[0]
 $csprojContent = $csprojContent -replace '<Version>.*?</Version>', "<Version>$nugetVersion</Version>"
 $csprojContent = $csprojContent -replace '<FileVersion>.*?</FileVersion>', "<FileVersion>$assemblyVersion</FileVersion>"
 $csprojContent = $csprojContent -replace '<AssemblyVersion>.*?</AssemblyVersion>', "<AssemblyVersion>$assemblyVersion</AssemblyVersion>"
